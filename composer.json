@@ -1,0 +1,7 @@
+{
+    "require": {
+        "silex/silex": "^2.2",
+        "illuminate/database": "^5.5",
+        "ktamas77/firebase-php": "^2.2"
+    }
+}
