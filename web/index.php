@@ -20,7 +20,12 @@ $app->before(function($request, $app) {
     Auth::authenticate($request, $app);
 });
 
-$app ->get('/links', function(Request $request) {
+$app->get('/', function(Request $request) {
+    $msg = "Hey There, How are you ???";
+    return json_encode($msg, JSON_UNESCAPED_SLASHES);
+});
+
+$app->get('/links', function(Request $request) {
     $links = Link::LINKS;
     return json_encode($links, JSON_UNESCAPED_SLASHES);
 });
