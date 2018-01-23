@@ -20,7 +20,7 @@ class Authentication
         $apikey = trim($apikey);
         $user = new User();
         $check = $user->authenticate($apikey);
-        
+
         if(!$check){
             $app->abort(401);
         }

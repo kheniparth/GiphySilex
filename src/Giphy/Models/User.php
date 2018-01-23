@@ -11,16 +11,21 @@ namespace GiphySilex\Models;
 
 class User
 {
+    private $users = [
+        [
+            'id' => '10234213',
+            'authToken' => '2093028390429034902040230480',
+            'name' => 'Parth Kheni'
+        ]
+    ];
+    
     public function authenticate($apikey)
     {
         //get user whose apike is this
-//        $user = User::where('apikey', '=', $apikey)->take(1)->get();
-        $user = new User();
-        if(isset($user[0])){
-            
-            $this->details = $user[0];
-//            return $this->details->id;
-            return 1;
+        foreach ($this->users as $index => $user) {
+            if ($user['authToken'] === $apikey){
+                return $user['id'];
+            }
         }
         
         return false;

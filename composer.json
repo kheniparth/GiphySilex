@@ -3,5 +3,11 @@
         "silex/silex": "^2.2",
         "illuminate/database": "^5.5",
         "ktamas77/firebase-php": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "GiphySilex\\Middleware\\": "src/Giphy/Middleware/",
+            "GiphySilex\\Models\\": "src/Giphy/Models/"
+        }
     }
 }
