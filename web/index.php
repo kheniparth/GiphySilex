@@ -7,6 +7,17 @@
  */
 
 require 'vendor/autoload.php';
+
+use GiphySilex\Models\Link;
+use GiphySilex\Models\User;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use GiphySilex\Middleware\Authentication as Auth;
+
 $app = new Silex\Application();
+
+$app->before(function($request, $app) {
+    Auth::authenticate($request, $app);
+});
 
 $app-> run();
