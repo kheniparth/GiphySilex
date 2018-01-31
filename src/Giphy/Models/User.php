@@ -11,7 +11,7 @@ namespace GiphySilex\Models;
 
 class User
 {
-    private $users = [
+    const USERS = [
         [
             'id' => '10234213',
             'authToken' => '2093028390429034902040230480',
@@ -22,7 +22,7 @@ class User
     public function authenticate($apikey)
     {
         //get user whose apike is this
-        foreach ($this->users as $index => $user) {
+        foreach (User::USERS as $index => $user) {
             if ($user['authToken'] === $apikey){
                 return $user['id'];
             }

@@ -32,18 +32,24 @@ $app->before(function($request, $app) {
 });
 
 $app->get('/', function(Request $request) {
-    $msg = "Hey There, How are you ???";
+    $userId = $request->attributes->get('userid');
+    $key = array_search($userId, array_column(User::USERS, "id"));
+    $user = User::USERS[$key];
+    $name = $user["name"];
+    $msg = "Hey {$name}, How are you ???";
     return json_encode($msg, JSON_UNESCAPED_SLASHES);
 });
 
 $app->get('/links', function(Request $request) {
-    $links = Link::LINKS;
+    $userId = $request->attributes->get('userid');
+    $links = Link::getUserLinks($userId);
     return json_encode($links, JSON_UNESCAPED_SLASHES);
 });
 
-$app->get('/link/{link_id}', function($link_id) use ($app) {
-    $links = Link::LINKS;
-    $payload = Link::getLink($link_id);
+$app->get('/link/{link_id}', function(Request $request) {
+    $link_id = $request->get('link_id');
+    $userId = $request->attributes->get('userid');
+    $payload = Link::getLink($link_id, $userId);
     return json_encode($payload, JSON_UNESCAPED_SLASHES);
 });
 
