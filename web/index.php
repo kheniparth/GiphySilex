@@ -45,19 +45,16 @@ $app->get('/links', function(Request $request) {
     return json_encode($links, JSON_UNESCAPED_SLASHES);
 });
 
-$app->get('/link/{link_id}', function(Request $request) {
-    $link_id = $request->get('link_id');
+$app->get('/link/{link_id}', function(Request $request, $link_id) use ($app) {
     $userId = $request->attributes->get('userid');
     $payload = Link::getLink($link_id, $userId);
     return json_encode($payload, JSON_UNESCAPED_SLASHES);
 });
 
-$app->get('/search/{search_str}', function(Request $request) {
-    $userId = $request->attributes->get('userid');
-    
+$app->get('/search/{search_str}', function(Request $request, $search_str) use ($app) {
     $api_instance = new Giphy();
     $api_key = "GIPHYAPIKEY"; // string | Giphy API Key.
-    $q = trim($request->get('search_str')); // string | Search query term or prhase.
+    $q = trim($search_str); // string | Search query term or prhase.
     $limit = 25; // int | The maximum number of records to return.
     $offset = 0; // int | An optional results offset. Defaults to 0.
     $rating = "g"; // string | Filters results by specified rating.
