@@ -11,8 +11,7 @@ require '../vendor/autoload.php';
 use GiphySilex\Models\Link;
 use GiphySilex\Models\User;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use GiphySilex\Middleware\Authentication as Auth;
+use GPH\Api\DefaultApi as Giphy;
 
 $app = new Silex\Application();
 
@@ -51,6 +50,29 @@ $app->get('/link/{link_id}', function(Request $request) {
     $userId = $request->attributes->get('userid');
     $payload = Link::getLink($link_id, $userId);
     return json_encode($payload, JSON_UNESCAPED_SLASHES);
+});
+
+$app->get('/search/{search_str}', function(Request $request) {
+    $userId = $request->attributes->get('userid');
+    
+    $api_instance = new Giphy();
+    $api_key = "GIPHYAPIKEY"; // string | Giphy API Key.
+    $q = trim($request->get('search_str')); // string | Search query term or prhase.
+    $limit = 25; // int | The maximum number of records to return.
+    $offset = 0; // int | An optional results offset. Defaults to 0.
+    $rating = "g"; // string | Filters results by specified rating.
+    $lang = "en"; // string | Specify default country for regional content; use a 2-letter ISO 639-1 country code. See list of supported languages <a href = \"../language-support\">here</a>.
+    $fmt = "json"; // string | Used to indicate the expected response format. Default is Json.
+    
+    try {
+        $payload = $api_instance->gifsSearchGet($api_key, $q, $limit, $offset, $rating, $lang, $fmt);
+        return $payload;
+    } catch (Exception $e) {
+        return json_encode(
+            'Exception when calling DefaultApi->gifsSearchGet: ' . $e->getMessage(),
+            JSON_UNESCAPED_SLASHES
+        );
+    }
 });
 
 $app-> run();

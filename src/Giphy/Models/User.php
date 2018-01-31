@@ -14,8 +14,16 @@ class User
     const USERS = [
         [
             'id' => '10234213',
-            'authToken' => '2093028390429034902040230480',
+            'authToken' => 'parth',
             'name' => 'Parth Kheni'
+        ], [
+            'id' => '10234214',
+            'authToken' => 'swapna',
+            'name' => 'Swapna Kheni'
+        ], [
+            'id' => '10234215',
+            'authToken' => 'jayvijay',
+            'name' => 'Jayvijay Gohil'
         ]
     ];
     
