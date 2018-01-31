@@ -17,7 +17,18 @@ use GiphySilex\Middleware\Authentication as Auth;
 $app = new Silex\Application();
 
 $app->before(function($request, $app) {
-    Auth::authenticate($request, $app);
+//    Auth::authenticate($request, $app);
+    $auth = $request->headers->get("Authorization");
+    $apikey = substr($auth, strpos($auth, ' '));
+    $apikey = trim($apikey);
+    $user = new User();
+    $check = $user->authenticate($apikey);
+    
+    if(!$check){
+        $app->abort(401);
+    } else {
+        $request->attributes->set('userid',$check);
+    }
 });
 
 $app->get('/', function(Request $request) {
