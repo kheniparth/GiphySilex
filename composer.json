@@ -2,7 +2,7 @@
     "require": {
         "silex/silex": "^2.2",
         "illuminate/database": "^5.5",
-        "ktamas77/firebase-php": "^2.2",
+        "ktamas77/firebase-php": "dev-master",
         "giphy/giphy-php-client": "^1.0"
     },
     "autoload": {
