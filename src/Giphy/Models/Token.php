@@ -23,6 +23,11 @@ class Token
         $this->timezone = new \DateTimeZone("America/Toronto");
     }
     
+    /*
+     * Authenticates wheter given token is valid and authenticate or not
+     * @param String
+     * @return mix
+     */
     public function authenticate($apikey)
     {
         $token = $this->firebase->get(Authentication::DEFAULT_PATH . self::PATH . $apikey);
@@ -36,6 +41,11 @@ class Token
         }
     }
     
+    /*
+     * Validates token on the bases of end date of it
+     * @param token
+     * @return bool
+     */
     private function validateToken($token)
     {
         $token = json_decode($token);
@@ -53,6 +63,9 @@ class Token
         return $flag;
     }
     
+    /*
+     * Generates a 8 random character string
+     */
     private function generateToken($length = 8) {
         $numbers = "0123456789";
         $lower = "abcdefghijklmnopqrstuvwxyz";
@@ -78,6 +91,12 @@ class Token
         ];
     }
     
+    /*
+     * Creates a token and save it to Firebase
+     * @param email
+     * @param name
+     * @return token generated in the Firebase
+     */
     public function createToken($email, $name) {
         $token = $this->generateToken();
         $token["email"] = $email;
