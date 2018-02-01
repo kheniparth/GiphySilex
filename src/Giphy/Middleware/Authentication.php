@@ -25,6 +25,9 @@ class Authentication
         $this->token = new Token($this->firebase);
     }
     
+    /*
+     * Authenticates the request and token in its header
+     */
     public function authenticate($request, $app)
     {
         $auth = $request->headers->get("token");
@@ -41,6 +44,12 @@ class Authentication
         }
     }
     
+    /*
+     * Instantiate the token creation process without authentication.
+     * @param email
+     * @param name
+     * @return token
+     */
     public function createToken($email, $name) {
         return $this->token->createToken($email, $name);
     }

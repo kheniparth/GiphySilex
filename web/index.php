@@ -8,7 +8,6 @@
 
 require '../vendor/autoload.php';
 
-use GiphySilex\Models\Link;
 use GiphySilex\Models\Token;
 use Symfony\Component\HttpFoundation\Request;
 use GiphySilex\Middleware\Authentication;
@@ -16,17 +15,18 @@ use GPH\Api\DefaultApi as Giphy;
 
 
 $app = new Silex\Application();
-
 $auth = new Authentication();
-$link = new Link();
 
+//runs before each request made to API
 $app->before(function($request, $app) use ($auth) {
     $route = $request->get("_route");
+    //skip authentication if user wants to create new token
     if ($route != "POST_create" ) {
         $auth->authenticate($request, $app);
     }
 });
 
+//home page
 $app->get('/', function(Request $request) {
     $token = json_decode($request->attributes->get('token'));
     $name = empty($token->name) ? "there" : $token->name;
@@ -34,6 +34,7 @@ $app->get('/', function(Request $request) {
     return json_encode($msg, JSON_UNESCAPED_SLASHES);
 });
 
+//allows user to create new token and accepts valid email and optional name
 $app->post('/create', function (Request $request) use ($auth) {
     $email = trim($request->get('email'));
     $name = str_replace(" ", "", trim($request->get('name')));
@@ -49,18 +50,7 @@ $app->post('/create', function (Request $request) use ($auth) {
     }
 });
 
-$app->get('/links', function(Request $request) {
-    $userId = $request->attributes->get('userid');
-    $links = Link::getUserLinks($userId);
-    return json_encode($links, JSON_UNESCAPED_SLASHES);
-});
-
-$app->get('/link/{link_id}', function(Request $request, $link_id) use ($app) {
-    $userId = $request->attributes->get('userid');
-    $payload = Link::getLink($link_id, $userId);
-    return json_encode($payload, JSON_UNESCAPED_SLASHES);
-});
-
+//makes request to GIPHY api to search what user has passed as search_str
 $app->get('/search/{search_str}', function(Request $request, $search_str) use ($app) {
     $api_instance = new Giphy();
     $api_key = Authentication::GIPHYKEY; // string | Giphy API Key.
