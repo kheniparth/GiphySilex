@@ -1,7 +1,7 @@
 {
     "require": {
         "silex/silex": "^2.2",
-        "illuminate/database": "6.20.14",
+        "illuminate/database": "6.20.26",
         "ktamas77/firebase-php": "dev-master",
         "giphy/giphy-php-client": "^1.0"
     },
